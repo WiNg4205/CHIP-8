@@ -12,8 +12,8 @@
 
 ## Assignment / Math
 - [x] `6XNN` – Set `VX = NN`
-- [ ] `7XNN` – Add `NN` to `VX`
-- [ ] `8XY0` – `VX = VY`
+- [x] `7XNN` – Add `NN` to `VX`
+- [x] `8XY0` – `VX = VY`
 - [ ] `8XY1` – `VX = VX | VY`
 - [ ] `8XY2` – `VX = VX & VY`
 - [ ] `8XY3` – `VX = VX ^ VY`

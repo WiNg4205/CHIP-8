@@ -28,6 +28,15 @@ int main(void) {
                 | hexchar_to_uint8(buf[3]);
             uint8_t n = buf[1] - '0';
             set(v, n, x);
+        } else if (buf[0] == '7') {
+            uint8_t x = (hexchar_to_uint8(buf[2]) << 4)
+                | hexchar_to_uint8(buf[3]);
+            uint8_t n = buf[1] - '0';
+            add(v, n, x);
+        } else if (buf[0] == '8' && buf[3] == '0') {
+            uint8_t x = hexchar_to_uint8(buf[1]);
+            uint8_t y = hexchar_to_uint8(buf[2]);
+            setXY(v, x, y);
         }
         printf("%s", buf);
     }
