@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdint.h>
+#include <stdlib.h>
 #include "helper.h"
 
 
@@ -14,36 +15,44 @@ int main(void) {
         for (int j = 0; j < 32; j++) {
             display[i][j] = 0;
         }
-    }    
-    PC = 0x200;
+    }
+    PC = 0x200; // 512 bytes to store other data
     I = 0x200;
 
     FILE *f = fopen("instructions.txt", "r");
 
     char buf[256];
 
+    uint8_t instruction_no = 0x000;
     while (fgets(buf, sizeof(buf), f)) {
+        uint16_t instr = (uint16_t) strtoul(buf, NULL, 16); // parse hex from file
+        memory[PC+instruction_no] = (instr >> 8) & 0xFF; // high byte
+        memory[PC+instruction_no+1] = instr & 0xFF; // low byte
+        instruction_no += 2;
+    }
+
+    uint16_t instr;
+    while ((instr = (memory[PC] << 8) | memory[PC + 1]) != 0x00) { // if instruction is not empty
+        printf("Instruction: 0x%04X\n", instr);
         // 6XNN: Set VX = NN
-        if (buf[0] == '6') {
-            uint8_t x = (hexchar_to_uint8(buf[2]) << 4)
-                | hexchar_to_uint8(buf[3]);
-            uint8_t n = buf[1] - '0';
+        if (instr >> 12 == 0x6) {
+            uint8_t n = instr & 0xFF;
+            uint8_t x = (instr >> 8) & 0xF;
             set(v, n, x);
 
         // 7XNN: Add NN to VX
-        } else if (buf[0] == '7') {
-            uint8_t x = (hexchar_to_uint8(buf[2]) << 4)
-                | hexchar_to_uint8(buf[3]);
-            uint8_t n = buf[1] - '0';
+        } else if (instr >> 12 == 0x7) {
+            uint8_t n = instr & 0xFF;
+            uint8_t x = (instr >> 8) & 0xF;
             add(v, n, x);
 
         // 8XY0: VX = VY
-        } else if (buf[0] == '8' && buf[3] == '0') {
-            uint8_t x = hexchar_to_uint8(buf[1]);
-            uint8_t y = hexchar_to_uint8(buf[2]);
+        } else if (instr >> 12 == 0x8 && (instr & 0xF) == 0x0) {
+            uint8_t x = (instr >> 8) & 0xF;
+            uint8_t y = (instr >> 4) & 0xF;
             setXY(v, x, y);
         }
-        printf("%s", buf);
+        PC += 2;
     }
 
     printf("%d %d %d %d", v[0], v[1], v[2], v[3]);
