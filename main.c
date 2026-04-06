@@ -23,16 +23,21 @@ int main(void) {
     char buf[256];
 
     while (fgets(buf, sizeof(buf), f)) {
+        // 6XNN: Set VX = NN
         if (buf[0] == '6') {
             uint8_t x = (hexchar_to_uint8(buf[2]) << 4)
                 | hexchar_to_uint8(buf[3]);
             uint8_t n = buf[1] - '0';
             set(v, n, x);
+
+        // 7XNN: Add NN to VX
         } else if (buf[0] == '7') {
             uint8_t x = (hexchar_to_uint8(buf[2]) << 4)
                 | hexchar_to_uint8(buf[3]);
             uint8_t n = buf[1] - '0';
             add(v, n, x);
+
+        // 8XY0: VX = VY
         } else if (buf[0] == '8' && buf[3] == '0') {
             uint8_t x = hexchar_to_uint8(buf[1]);
             uint8_t y = hexchar_to_uint8(buf[2]);
