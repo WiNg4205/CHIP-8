@@ -47,7 +47,7 @@ int main(void) {
             add(v, n, x);
 
         // 8XY0: VX = VY
-        } else if (get_hex_digit(instr, 0) && get_hex_digit(instr, 3) == 0) {
+        } else if (get_hex_digit(instr, 0) == 0x8 && get_hex_digit(instr, 3) == 0) {
             uint8_t x = get_hex_digit(instr, 1);
             uint8_t y = get_hex_digit(instr, 2);
             setXY(v, x, y);
