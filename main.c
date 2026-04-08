@@ -35,27 +35,27 @@ int main(void) {
     while ((instr = (memory[PC] << 8) | memory[PC + 1]) != 0x00) { // if instruction is not empty
         printf("Instruction: 0x%04X\n", instr);
         // 6XNN: Set VX = NN
-        if (instr >> 12 == 0x6) {
+        if (get_hex_digit(instr, 0) == 0x6) {
             uint8_t n = instr & 0xFF;
-            uint8_t x = (instr >> 8) & 0xF;
+            uint8_t x = get_hex_digit(instr, 1);
             set(v, n, x);
 
         // 7XNN: Add NN to VX
-        } else if (instr >> 12 == 0x7) {
+        } else if (get_hex_digit(instr, 0) == 0x7) {
             uint8_t n = instr & 0xFF;
-            uint8_t x = (instr >> 8) & 0xF;
+            uint8_t x = get_hex_digit(instr, 1);
             add(v, n, x);
 
         // 8XY0: VX = VY
-        } else if (instr >> 12 == 0x8 && (instr & 0xF) == 0x0) {
-            uint8_t x = (instr >> 8) & 0xF;
-            uint8_t y = (instr >> 4) & 0xF;
+        } else if (get_hex_digit(instr, 0) && get_hex_digit(instr, 3) == 0) {
+            uint8_t x = get_hex_digit(instr, 1);
+            uint8_t y = get_hex_digit(instr, 2);
             setXY(v, x, y);
         }
         PC += 2;
     }
 
-    printf("%d %d %d %d", v[0], v[1], v[2], v[3]);
+    printf("%d %d %d %d", v[0], v[1], v[2], v[3]); // expected output: 0 0 180 180
  
     for (int i = 0; i < 16; i++) {
         for (int j = 0; j < 32; j++) {
