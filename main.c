@@ -38,19 +38,19 @@ int main(void) {
         if (get_hex_digit(instr, 0) == 0x6) {
             uint8_t n = instr & 0xFF;
             uint8_t x = get_hex_digit(instr, 1);
-            set(v, n, x);
+            v[x] = n;
 
         // 7XNN: Add NN to VX
         } else if (get_hex_digit(instr, 0) == 0x7) {
             uint8_t n = instr & 0xFF;
             uint8_t x = get_hex_digit(instr, 1);
-            add(v, n, x);
+            v[x] += n;
 
         // 8XY0: VX = VY
         } else if (get_hex_digit(instr, 0) == 0x8 && get_hex_digit(instr, 3) == 0) {
             uint8_t x = get_hex_digit(instr, 1);
             uint8_t y = get_hex_digit(instr, 2);
-            setXY(v, x, y);
+            v[x] = v[y];
         }
         PC += 2;
     }
