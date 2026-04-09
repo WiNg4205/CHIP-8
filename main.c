@@ -46,16 +46,52 @@ int main(void) {
             uint8_t x = get_hex_digit(instr, 1);
             v[x] += n;
 
-        // 8XY0: VX = VY
-        } else if (get_hex_digit(instr, 0) == 0x8 && get_hex_digit(instr, 3) == 0) {
+        // Commands in the format 8XY? where '?' is a digit
+        } else if (get_hex_digit(instr, 0) == 0x8) {
             uint8_t x = get_hex_digit(instr, 1);
             uint8_t y = get_hex_digit(instr, 2);
-            v[x] = v[y];
+
+            // 8XY0: VX = VY
+            if (get_hex_digit(instr, 3) == 0x0) {
+                v[x] = v[y];
+
+            // 8XY1: VX = VX | VY
+            } else if (get_hex_digit(instr, 3) == 0x1) {
+                v[x] = v[x] | v[y];
+
+            // 8XY2: VX = VX & VY
+            } else if (get_hex_digit(instr, 3) == 0x2) {
+                v[x] = v[x] & v[y];
+
+            // 8XY3: VX = VX ^ VY
+            } else if (get_hex_digit(instr, 3) == 0x3) {
+                v[x] = v[x] ^ v[y];
+
+            // 8XY4: VX += VY
+            } else if (get_hex_digit(instr, 3) == 0x4) {
+                v[x] += v[y];
+
+            // 8XY5: VX -= VY
+            } else if (get_hex_digit(instr, 3) == 0x5) {
+                v[x] -= v[y];
+
+            // 8XY6: VX = VX >>= 1
+            } else if (get_hex_digit(instr, 3) == 0x6) {
+                v[x] >>= 1;
+            
+            // 8XY7: VX = VY - VX
+            } else if (get_hex_digit(instr, 3) == 0x7) {
+                v[x] = v[y] - v[x];
+            
+            // 8XYE: VX <<= 1
+            } else if (get_hex_digit(instr, 3) == 0xE) {
+                v[x] <<= 1;
+            }
         }
         PC += 2;
     }
 
-    printf("%d %d %d %d", v[0], v[1], v[2], v[3]); // expected output: 0 0 180 180
+    printf("%d %d %d %d", v[0], v[1], v[2], v[3]); // expected output: 255 0 255 180
  
     for (int i = 0; i < 16; i++) {
         for (int j = 0; j < 32; j++) {
