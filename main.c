@@ -33,7 +33,7 @@ int main(void) {
 
     uint16_t instr;
     while ((instr = (memory[PC] << 8) | memory[PC + 1]) != 0x00) { // if instruction is not empty
-        printf("Instruction: 0x%04X\n", instr);
+        printf("Instruction: 0x%04X ", instr);
         // 6XNN: Set VX = NN
         if (get_hex_digit(instr, 0) == 0x6) {
             uint8_t n = instr & 0xFF;
@@ -88,11 +88,12 @@ int main(void) {
                 v[x] <<= 1;
             }
         }
+        printf("%02X %02X %02X %02X\n", v[0], v[1], v[2], v[3]);
+
         PC += 2;
     }
 
-    printf("%d %d %d %d", v[0], v[1], v[2], v[3]); // expected output: 255 0 255 180
- 
+    
     for (int i = 0; i < 16; i++) {
         for (int j = 0; j < 32; j++) {
             if (display[i][j] == 1) {

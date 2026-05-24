@@ -14,14 +14,14 @@
 - [x] `6XNN` – Set `VX = NN`
 - [x] `7XNN` – Add `NN` to `VX`
 - [x] `8XY0` – `VX = VY`
-- [ ] `8XY1` – `VX = VX | VY`
-- [ ] `8XY2` – `VX = VX & VY`
-- [ ] `8XY3` – `VX = VX ^ VY`
-- [ ] `8XY4` – `VX += VY`, VF = carry
-- [ ] `8XY5` – `VX -= VY`, VF = NOT borrow
-- [ ] `8XY6` – `VX >>= 1`, VF = least significant bit
-- [ ] `8XY7` – `VX = VY - VX`, VF = NOT borrow
-- [ ] `8XYE` – `VX <<= 1`, VF = most significant bit
+- [x] `8XY1` – `VX = VX | VY`
+- [x] `8XY2` – `VX = VX & VY`
+- [x] `8XY3` – `VX = VX ^ VY`
+- [x] `8XY4` – `VX += VY`, VF = carry
+- [x] `8XY5` – `VX -= VY`, VF = NOT borrow
+- [x] `8XY6` – `VX >>= 1`, VF = least significant bit
+- [x] `8XY7` – `VX = VY - VX`, VF = NOT borrow
+- [x] `8XYE` – `VX <<= 1`, VF = most significant bit
 
 ## Memory / Index
 - [ ] `ANNN` – Set index `I = NNN`

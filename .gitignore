@@ -1,3 +1,4 @@
 main
+chip8
 *.o
 *.exe

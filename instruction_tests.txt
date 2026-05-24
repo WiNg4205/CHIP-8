@@ -1,0 +1,36 @@
+Compact dataset tests matching `instructions.txt`
+
+Raw opcode sequence (put these in `instructions.txt`, one per line):
+6001
+6102
+6203
+6304
+8010
+7010
+8011
+8022
+8033
+8014
+8015
+8006
+800E
+0000
+
+Expected V0..V3 after each executed opcode:
+- After `6001`: 0x01, 0x00, 0x00, 0x00
+- After `6102`: 0x01, 0x02, 0x00, 0x00
+- After `6203`: 0x01, 0x02, 0x03, 0x00
+- After `6304`: 0x01, 0x02, 0x03, 0x04
+- After `8010` (V0 = V1): 0x02, 0x02, 0x03, 0x04
+- After `7010` (V0 += 0x10): 0x12, 0x02, 0x03, 0x04
+- After `8011` (V0 |= V1): 0x12, 0x02, 0x03, 0x04
+- After `8022` (V0 &= V2): 0x02, 0x02, 0x03, 0x04
+- After `8033` (V0 ^= V3): 0x06, 0x02, 0x03, 0x04
+- After `8014` (V0 += V1): 0x08, 0x02, 0x03, 0x04
+- After `8015` (V0 -= V1): 0x06, 0x02, 0x03, 0x04
+- After `8006` (V0 >>= 1): 0x03, 0x02, 0x03, 0x04
+- After `800E` (V0 <<= 1): 0x06, 0x02, 0x03, 0x04
+
+Notes:
+- These tests only use opcodes implemented in `main.c` (register ops and shifts).
+- `instructions.txt` must contain raw 4-hex-digit opcodes, one per line, ending with `0000` to stop the runner.
